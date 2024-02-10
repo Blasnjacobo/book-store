@@ -1,11 +1,21 @@
 import express from "express";
-import { PORT, mongoDBURL } from "./config.js";
 import mongoose from "mongoose";
 import booksRoutes from './routes/booksRouter.js'
+import dotenv from 'dotenv'
+import cors from 'cors'
 
 
-const app = express();
-console.log('parte1')
+const app = express()
+
+dotenv.config()
+
+app.use(
+    cors({
+        origin: 'http://localhost:3000',
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type']
+    })
+)
 
 
 // Middleware para permitir el análisis de JSON en las solicitudes
@@ -17,10 +27,10 @@ app.use(express.json());
 /* ROUTES */
 app.use('/books', booksRoutes)
 
-console.log('parte2')
+const PORT = process.env.PORT
 
 mongoose
-    .connect(mongoDBURL)
+    .connect(process.env.mongoDBURL)
     .then(() => {
         console.log('App connected to database');
         app.listen(PORT, () => {

@@ -1,4 +1,3 @@
-import { request } from "express";
 import { Book } from "../models/bookModel.js";
 
 // Ruta para guardar un nuevo libro
